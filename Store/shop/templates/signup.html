@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ffffff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+         }
+
+         .signin_box {
+            position: fixed;
+            border: 2px solid black;
+            border-radius: 5px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 24px 32px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+            width: 180px;
+         }
+    </style>
+</head>
+<body>
+    <form method="POST">
+            <div class="signin_box">
+                {% csrf_token %}
+
+                {% if error %}
+                    <p style="color:red;">{{ error }}</p>
+                {% endif %}
+
+                {% if success %}
+                <p style="color:green;">Purchase complete! Redirecting...</p>
+
+                <script>
+                    setTimeout(function() {
+                        window.location.href = "/";
+                    }, 5000);
+                </script>
+                {% endif %}
+
+                <h2>Signup</h2>
+
+                <input type="text" name="username" placeholder="Username" />
+                <input type="text" name="email" placeholder="Email" />
+                <input type="password" name="password" placeholder="Password" />
+
+                <button style="width:100%" type="submit">Submit</button>
+            </div>
+    </form>
+</body>
+</html>

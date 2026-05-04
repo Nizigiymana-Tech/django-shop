@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <style>
+        .text_center {
+            text-align: center;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ffffff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ItemBox {
+            border: 2px solid black;
+            width: 350px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: white;
+            width: 50px;
+            border-style: solid;
+            border-color: black;
+            border-radius: 5px;
+        }
+
+        .login-box {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 12px 16px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+            width: 180px;
+        }
+
+        .login-box h3 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 4px 6px;
+            border: 1px solid black;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 4px;
+            cursor: pointer;
+        }
+
+        .login-box button:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+
+    <div class="login-box">
+        <h3>Logged in as {{ user.username }}</h3>
+
+        <form method="POST" action="/logout/">
+            {% csrf_token %}
+            <button type="submit" style="width:100%">Logout</button>
+        </form>
+    </div>
+
+    {% else %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="login-box">
+            {% if error %}
+                <p style="color:red;">{{ error }}</p>
+            {% endif %}
+
+            {% if success %}
+                <p style="color:green;">{{ success }}</p>
+            {% endif %}
+
+            <h3>Login</h3>
+            <input type="text" name="username" placeholder="Username" />
+            <input type="password" name="password" placeholder="Password" />
+            <button style="width:100%" type="submit">Login</button>
+        </div>
+    </form>
+
+    {% endif %}
+
+    <h1 class="text_center">Shop</h1>
+
+    {% for item in items %}
+        <div class="text_center ItemBox container">
+            <h2>{{ item.name }}</h2>
+            <p>{{ item.description }}</p>
+            <p>Price: ${{ item.price }}</p>
+            <a href="/buy/{{ item.id }}/">
+                <button>Buy</button>
+            </a>
+        </div>
+    {% endfor %}
+
+</body>
+</html>
