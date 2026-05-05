@@ -24,7 +24,7 @@ def signup_view(request):
         User.objects.create_user(username=username, email=email, password=password)
 
         return render(request, "signup.html", {
-            "success": True  # 👈 important flag
+            "success": True
         })
 
     return render(request, "signup.html")
